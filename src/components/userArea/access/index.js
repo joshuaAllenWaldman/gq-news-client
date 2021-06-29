@@ -2,9 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap'
 import { useFormik } from 'formik';
 import * as Yup from 'yup'
+import axios from 'axios'
+
+import { useDispatch } from 'react-redux';
+import { signupUser, loginUser } from '../../../store/actions/index'
+import ToastHandler from '../../utils/toasts';
 
 
-const UserAccess = () => {
+const UserAccess = (props) => {
+  const dispatch = useDispatch()
   const [type, setType] = useState(true);
   const formik = useFormik({
     initialValues: {
@@ -13,14 +19,48 @@ const UserAccess = () => {
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid Email').required('Email Required'),
-      password: Yup.string().min(5, 'Must be more than 5 char').required('Password Required')
+      password: Yup.string().min(3, 'Must be more than 5 char').required('Password Required')
     }),
     onSubmit: values => {
-      console.log(values)
+      onSubmitHandler(values)
     }
   })
+
+  
   const switchTypeHandler = () => {
     setType(!type)
+  }
+
+  const onSubmitHandler = (values) => {
+    if(type){
+      //sign in
+      dispatch(loginUser(values)).then(({payload}) => {
+        successHandler(payload)
+      })
+    } else {
+      //register
+      dispatch(signupUser(values)).then(({payload}) => {
+        successHandler(payload)
+      })
+    }
+  } 
+
+  
+
+
+  const successHandler = (payload) => {
+    const errors = payload.errors;
+    const auth = payload.auth;
+    
+    if(errors){
+      ToastHandler(errors, 'ERROR')
+    } 
+    if(auth){
+      localStorage.setItem('X-AUTH', auth.token);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + auth.token;
+      ToastHandler('Welcome!', 'SUCCESS')
+      props.history.push('/user_area')
+    }
   }
 
   return (
