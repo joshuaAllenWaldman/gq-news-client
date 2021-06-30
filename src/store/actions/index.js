@@ -14,14 +14,21 @@ export const autoSignIn = () => ({
   type:'AUTH_USER',
   payload: api.autoSignIn()
 })
+
 export const logoutUser = () => {
   localStorage.removeItem('X-AUTH')
   return {
-    type:'AUTH_USER',
-    payload: {auth: null }
+    type:'LOGOUT_USER',
+    payload: null
   }
 }
+
 export const updateUserEmailPass = (email, password, id) => ({
   type: 'AUTH_USER',
   payload: api.updateUserEmailPass(email, password, id)
+})
+
+export const getUserStats = (id) => ({
+  type: 'USER_STATS',
+  payload: api.getUserStats(id)
 })
