@@ -1,19 +1,19 @@
 import React from 'react';
-import UserAreaHoc from '../hoc/userAreaHoc';
+import UserAreaHoc from '../../hoc/userAreaHoc';
 
 
-const UserArea = () => {
+const Create = () => {
   return (
 
     <UserAreaHoc>
 
       <div className="mt-3">
-        Welcome to your user Area
+        Create
       </div>
     </UserAreaHoc>
   
   )
 }
 
-export default UserArea
+export default Create
 
