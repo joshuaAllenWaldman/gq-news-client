@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { CardGroup } from 'react-bootstrap';
 import CardItem from '../utils/card';
 import { getPost } from '../../store/actions'
 
@@ -37,6 +38,15 @@ const Article = (props) => {
           </div>
           <hr />
           <h3>Related Posts</h3>
+          <CardGroup>
+            {
+              myPost.related ?
+              myPost.related.map((item, i) => (
+                <CardItem item={item} key={i} />
+              ))
+              :null
+            }
+          </CardGroup>
         </>
         :null
       }
