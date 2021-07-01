@@ -32,6 +32,10 @@ const Header = (props) => {
             onClick={()=>{handleLogout()}}
             >Logout</Nav.Link>
         
+            <LinkContainer to="/">
+              <Nav.Link>Home</Nav.Link>
+            </LinkContainer>
+            
             <LinkContainer to="/user_area">
               <Nav.Link>User Area</Nav.Link>
             </LinkContainer>
